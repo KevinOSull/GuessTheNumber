@@ -60,8 +60,8 @@ public class GuessTheNumber extends JFrame{
 	private JLabel fortyFiveSecondsLabel;
 	private JLabel thirtySecondsLabel;
 	private JLabel fifteenSecondsLabel;
-	private JLabel timerOutputLabel;
-	private JLabel countDownClockLabel;*/
+	private JLabel timerOutputLabel;*/
+	//private JLabel countDownClockLabel;
 	
 	private JButton submitButton;
 	private JButton easyLevelButton;
@@ -87,6 +87,7 @@ public class GuessTheNumber extends JFrame{
 	private Timer fifthteenSecondTimer;
 	
 	public GuessTheNumber(){
+		gameStatus = GameStatus.GAME_ON;
 		initializeFrame();
 		initializeContentPane();
 		addComponent();
