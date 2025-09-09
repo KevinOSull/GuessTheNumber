@@ -165,5 +165,12 @@ public class GuessTheNumber extends JFrame{
 		contentPane.add(button);
 		return button;
 	}
+
+	private void stopGameClock(){
+
+	}
 	
+	private void resetButton(){
+		
+	}
 }
