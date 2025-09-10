@@ -179,6 +179,49 @@ public class GuessTheNumber extends JFrame{
 
 	}
 
+	private int setGameDifficulty(ActionEvent e){
+		return 0;
+	}
+
+	private void checkChoice(ActionEvent e){
+
+	}
+
+	private int processButton(){
+		return 0;
+	}
+
+	private void printOutNumberOfTurns(JLabel label,int numberOfTurns){
+
+	}
+
+	
+
+	private void handleErrors(Map<String,Supplier<Boolean>>errorMessages){
+
+	}
+
+	private Map<String,Supplier<Boolean>>getErrorChecks(){
+		Map<String,Supplier<Boolean>>errorMessages = new LinkedHashMap<>();
+		return errorMessages;
+	}
+
+	private void errorMessages(){
+
+	}
+
+	private boolean isInputEmpty(){
+		return true;
+	}
+
+	private boolean isGuessValidNumber(){
+		return true;
+	}
+
+	private boolean isGuessOutOfRange(){
+		return true;
+	}
+
 	
 
 	private void stopGameClock(){
