@@ -55,13 +55,9 @@ public class GuessTheNumber extends JFrame{
 	private JLabel randomNumberAnswerLabel;
 	private JLabel randomNumberLabel;
 	private JLabel outputLabel;
-/*)	private JLabel howManyGuessesLabel;
-	private JLabel sixtySecondsLabel;
-	private JLabel fortyFiveSecondsLabel;
-	private JLabel thirtySecondsLabel;
-	private JLabel fifteenSecondsLabel;
-	private JLabel timerOutputLabel;*/
-	//private JLabel countDownClockLabel;
+	private JLabel howManyGuessesLabel;
+	private JLabel timerOutputLabel;
+	private JLabel countDownClockLabel;
 	
 	private JButton submitButton;
 	private JButton easyLevelButton;
@@ -71,6 +67,7 @@ public class GuessTheNumber extends JFrame{
 	private JButton resetFieldsButton;
 	private JButton peekButton;
 	private JButton stopGameButton;
+	private JButton exitButton;
 	
 	private JTextField userGuessField;
 	
@@ -118,8 +115,8 @@ public class GuessTheNumber extends JFrame{
 		headerTitleTextLabel.setOpaque(true);
 		contentPane.add(headerTitleTextLabel);
 		
-		addLabel("Countdown Timer: ",10,222,118,14);
-		addLabel("60",120,220,19,14);
+		countDownClockLabel = addLabel("Countdown Timer: ",10,222,118,14);
+		timerOutputLabel = addLabel("60",120,220,19,14);
 		easyLevelLabel = addLabel("1",149,91,19,14);
 		intermediateLevelLabel = addLabel("1",244,91,19,14);
 		hardLevelLabel = addLabel("1",333,91,19,14);
@@ -140,6 +137,8 @@ public class GuessTheNumber extends JFrame{
 		resetFieldsButton = addButton("Reset",10,153,89,32);
 		stopGameButton = addButton("Stop",10,188,89,32);
 		peekButton = addButton("Peek",10,118,89,32);
+		exitButton = addButton("Exit",385,187,89,32);
+		initializeButtonListeners();
 	}
 	
 	private JLabel addLabel(String text,int x,int y,int width,int height){
@@ -166,11 +165,27 @@ public class GuessTheNumber extends JFrame{
 		return button;
 	}
 
+	private void initializeButtonListeners(){
+		submitButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				if(gameStatus == GameStatus.GAME_ON){
+					startOfGame(e);
+				}
+			}
+		});
+	}
+
+	private void startOfGame(ActionEvent e){
+
+	}
+
+	
+
 	private void stopGameClock(){
 
 	}
 	
 	private void resetButton(){
-		
+
 	}
 }
