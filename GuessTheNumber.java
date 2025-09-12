@@ -176,7 +176,9 @@ public class GuessTheNumber extends JFrame{
 	}
 
 	private void startOfGame(ActionEvent e){
-
+		if(isInputEmpty().get()){
+			errorMessages();
+		}
 	}
 
 	private int setGameDifficulty(ActionEvent e){
@@ -195,23 +197,39 @@ public class GuessTheNumber extends JFrame{
 
 	}
 
-	
-
-	private void handleErrors(Map<String,Supplier<Boolean>>errorMessages){
-
-	}
-
 	private Map<String,Supplier<Boolean>>getErrorChecks(){
 		Map<String,Supplier<Boolean>>errorMessages = new LinkedHashMap<>();
+		errorMessages.put(getErrorMessages("emptyInput"),isInputEmpty());
 		return errorMessages;
 	}
 
-	private void errorMessages(){
-
+	private void handleErrors(Map<String,Supplier<Boolean>>errorMessages){
+		for(Map.Entry<String,Supplier<Boolean>>entry:errorMessages.entrySet()){
+			if(entry.getValue().get()){
+				JOptionPane.showMessageDialog(f,entry.getKey());
+				return;
+			}
+		}
 	}
 
-	private boolean isInputEmpty(){
-		return true;
+	private void errorMessages(){
+		Map<String,Supplier<Boolean>>errorChecks = getErrorChecks();
+		handleErrors(errorChecks);
+	}
+
+	private String getErrorMessages(String message){
+		switch(message){
+			case "emptyInput":
+				return String.format("FIELD CANNOT BE EMPTY!!");
+
+		}
+		return message;
+	}
+
+	private Supplier<Boolean> isInputEmpty(){
+		return()->{
+			return userGuessField.getText().trim().isEmpty();
+		};
 	}
 
 	private boolean isGuessValidNumber(){
