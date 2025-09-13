@@ -178,6 +178,12 @@ public class GuessTheNumber extends JFrame{
 	private void startOfGame(ActionEvent e){
 		if(isInputEmpty().get()){
 			errorMessages();
+		}else if(isGuessOutOfRange().get()){
+			errorMessages();
+		}else if(isGuessValidNumber().get()){
+			errorMessages();
+		}else{
+			checkChoice(e);
 		}
 	}
 
@@ -200,6 +206,8 @@ public class GuessTheNumber extends JFrame{
 	private Map<String,Supplier<Boolean>>getErrorChecks(){
 		Map<String,Supplier<Boolean>>errorMessages = new LinkedHashMap<>();
 		errorMessages.put(getErrorMessages("emptyInput"),isInputEmpty());
+		errorMessages.put(getErrorMessages("outOfRangeGuess"),isGuessOutOfRange());		
+		errorMessages.put(getErrorMessages("invalidNumber"),isGuessValidNumber());
 		return errorMessages;
 	}
 
@@ -222,6 +230,12 @@ public class GuessTheNumber extends JFrame{
 			case "emptyInput":
 				return String.format("FIELD CANNOT BE EMPTY!!");
 
+			case "outOfRangeGuess":
+				return String.format( userGuessField.getText() + " GUESS IS OUT OF RANGE!! (1-20 ONLY!)");
+
+			case "invalidNumber":
+				return String.format("NUMBERS ONLY!! NO LETTERS OR SYMBOLS!!");
+
 		}
 		return message;
 	}
@@ -232,12 +246,28 @@ public class GuessTheNumber extends JFrame{
 		};
 	}
 
-	private boolean isGuessValidNumber(){
-		return true;
+	private Supplier<Boolean> isGuessValidNumber(){
+		return()->{
+			String inputString = userGuessField.getText().trim();
+			try{
+				Integer.parseInt(inputString);
+				return false;
+			}catch(NumberFormatException e){
+				return true;
+			}
+		};
 	}
 
-	private boolean isGuessOutOfRange(){
-		return true;
+	private Supplier<Boolean> isGuessOutOfRange(){
+		return()->{
+			String inputString = userGuessField.getText().trim();
+			try{
+				int guess  = Integer.parseInt(inputString);
+				return guess < 1 || guess > 20;
+			}catch(NumberFormatException e){
+				return false;
+			}
+		};
 	}
 
 	
