@@ -28,6 +28,7 @@ public class GuessTheNumber extends JFrame{
 	private final int BUTTON_1 = 1;
 	private final int BUTTON_2 = 2;
 	private final int BUTTON_3 = 3;
+	private final int BUTTON_4 = 4;
 	private final int WIDTH = 300;
 	private final int HEIGHT = 30;
 	private final int Y = 10;
@@ -68,6 +69,11 @@ public class GuessTheNumber extends JFrame{
 	private JButton peekButton;
 	private JButton stopGameButton;
 	private JButton exitButton;
+	//private JButton resetButton;
+
+	//private JButton[] levelButtons = new JButton[]{easyLevelButton,intermediateLevelButton,hardLevelButton,extremeLevelButton};
+	private JButton[] levelButtons;
+	private JButton[] gameFlowButtons = new JButton[]{submitButton,resetFieldsButton,stopGameButton,exitButton};
 	
 	private JTextField userGuessField;
 	
@@ -88,6 +94,10 @@ public class GuessTheNumber extends JFrame{
 		initializeFrame();
 		initializeContentPane();
 		addComponent();
+		difficultyGameActionListener(easyLevelButton);
+		difficultyGameActionListener(intermediateLevelButton);
+		difficultyGameActionListener(hardLevelButton);
+		difficultyGameActionListener(extremeLevelButton);
 		
 	}
 	
@@ -117,7 +127,7 @@ public class GuessTheNumber extends JFrame{
 		
 		countDownClockLabel = addLabel("Countdown Timer: ",10,222,118,14);
 		timerOutputLabel = addLabel("60",120,220,19,14);
-		easyLevelLabel = addLabel("1",149,91,19,14);
+		easyLevelLabel = addLabel("0",149,91,19,14);
 		intermediateLevelLabel = addLabel("1",244,91,19,14);
 		hardLevelLabel = addLabel("1",333,91,19,14);
 		extremeHardLevelLabel = addLabel("1",431,91,19,14);
@@ -138,6 +148,7 @@ public class GuessTheNumber extends JFrame{
 		stopGameButton = addButton("Stop",10,188,89,32);
 		peekButton = addButton("Peek",10,118,89,32);
 		exitButton = addButton("Exit",385,187,89,32);
+		levelButtons = new JButton[]{easyLevelButton,intermediateLevelButton,hardLevelButton,extremeLevelButton};
 		initializeButtonListeners();
 	}
 	
@@ -176,30 +187,103 @@ public class GuessTheNumber extends JFrame{
 	}
 
 	private void startOfGame(ActionEvent e){
-		if(isInputEmpty().get()){
-			errorMessages();
-		}else if(isGuessOutOfRange().get()){
-			errorMessages();
-		}else if(isGuessValidNumber().get()){
+		boolean isValid = isDataValid();
+		if(!isValid){
 			errorMessages();
 		}else{
 			checkChoice(e);
 		}
 	}
 
-	private int setGameDifficulty(ActionEvent e){
-		return 0;
+	private boolean isDataValid(){
+		return !isInputEmpty().get() 
+		      && !isGuessOutOfRange().get()
+			  && !isGuessValidNumber().get();
 	}
 
 	private void checkChoice(ActionEvent e){
-
+		Object sourceObject = e.getSource();
+		switch(turns){
+			case EASY_GAME_MODE:
+				if(sourceObject == submitButton){
+					checkGuess(easyLevelLabel,e);
+				}
+				break;
+		}
 	}
 
 	private int processButton(){
-		return 0;
+		switch(buttonId){
+			case BUTTON_1:
+				level = EASY_GAME_MODE;
+				printOutNumberOfTurns(easyLevelLabel,EASY_GAME_MODE);
+				break;
+		}
+		return buttonId;
 	}
 
+	private int setGameDifficulty(ActionEvent e){
+		Object sourceObject = e.getSource();
+		for(int i = 0; i < levelButtons.length; i++){
+			if(sourceObject == levelButtons[i]){
+				buttonId = i + 1;
+				switch(buttonId){
+					case 1:
+						buttonId = BUTTON_1;
+						selectedMode = "EASY";
+						break;
+
+					case 2:
+						buttonId = BUTTON_2;
+						selectedMode = "MEDIUM";
+						break;
+
+					case 3: buttonId = BUTTON_3;
+						selectedMode = "HARD";
+						break;
+
+					case 4: 
+						buttonId = BUTTON_4;
+						selectedMode = "EXTREME";
+						break;
+
+					default:
+						System.out.println("SOMETHING WENT WRONG!!!!!");
+					
+				}
+			}
+		}
+		turns = processButton();
+		lockInDifficultyLevel();
+		return buttonId;
+
+	}
+
+	private void difficultyGameActionListener(JButton button){
+		button.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				turns = setGameDifficulty(e);
+				turns = level;
+				
+			}
+		});
+	}
+
+	private void lockInDifficultyLevel(){
+		easyLevelButton.setEnabled(false);
+		intermediateLevelButton.setEnabled(false);
+		hardLevelButton.setEnabled(false);
+		extremeLevelButton.setEnabled(false);
+	}
+
+	
+
 	private void printOutNumberOfTurns(JLabel label,int numberOfTurns){
+		label.setText("" + numberOfTurns);
+		
+	}
+
+	private void checkGuess(JLabel label,ActionEvent e){
 
 	}
 
@@ -276,7 +360,19 @@ public class GuessTheNumber extends JFrame{
 
 	}
 	
-	private void resetButton(){
+	/*private void resetButton(){
+
+	}*/
+
+	private void displayRandomNumber(){
+		randomNumber = getRandomNumber();
+	}
+
+	private int getRandomNumber(){
+		return (int)(Math.random()*20)+1;
+	}
+
+	private void playAgainPrompt(){
 
 	}
 }
