@@ -69,17 +69,6 @@ public class GuessTheNumber extends JFrame{
 	private JButton peekButton;
 	private JButton stopGameButton;
 	private JButton exitButton;
-	//private JButton resetButton;
-
-	//private JButton[] levelButtons = new JButton[]{easyLevelButton,intermediateLevelButton,hardLevelButton,extremeLevelButton};
-	private String[] difficultyModes = new String[]{"EASY","MEDIUM","HARD","EXTREME"};
-	private int[] buttonDifficultyLevels = new int[]{BUTTON_1,BUTTON_2,BUTTON_3,BUTTON_4};
-	private JButton[] levelButtons;
-	private JButton[] gameFlowButtons = new JButton[]{submitButton,resetFieldsButton,stopGameButton,exitButton};
-	
-	private JTextField userGuessField;
-	
-	
 	
 	private Timer peekTimer;
 	private Timer clearGuessLabel;
@@ -90,17 +79,27 @@ public class GuessTheNumber extends JFrame{
 	private Timer fortyFiveSecondsTimer;
 	private Timer thirtySecondsTimer;
 	private Timer fifthteenSecondTimer;
+
+	private String[] difficultyModes = new String[]{"EASY","MEDIUM","HARD","EXTREME"};
+	private Timer[] gameTimers = new Timer[]{sixtySecondsTimer,fortyFiveSecondsTimer,thirtySecondsTimer,fifthteenSecondTimer};
+	private int[] buttonDifficultyLevels = new int[]{BUTTON_1,BUTTON_2,BUTTON_3,BUTTON_4};
+	private JButton[] levelButtons;
+	private JButton[] gameFlowButtons = new JButton[]{submitButton,resetFieldsButton,stopGameButton,exitButton};
+	
+	private JTextField userGuessField;
 	
 	public GuessTheNumber(){
 		gameStatus = GameStatus.GAME_ON;
 		initializeFrame();
 		initializeContentPane();
 		addComponent();
-		difficultyGameActionListener(easyLevelButton);
-		difficultyGameActionListener(intermediateLevelButton);
-		difficultyGameActionListener(hardLevelButton);
-		difficultyGameActionListener(extremeLevelButton);
-		
+		initializeDifficultyButtonListeners();
+	}
+
+	private void initializeDifficultyButtonListeners(){
+		for(int i = 0; i < levelButtons.length; i++){
+			difficultyGameActionListener(levelButtons[i]);
+		}
 	}
 	
 	private void initializeFrame(){
@@ -252,43 +251,6 @@ public class GuessTheNumber extends JFrame{
 		return buttonId;
 	}
 
-	/*private int setGameDifficulty(ActionEvent e){
-		Object sourceObject = e.getSource();
-		for(int i = 0; i < levelButtons.length; i++){
-			if(sourceObject == levelButtons[i]){
-				buttonId = i + 1;
-				switch(buttonId){
-					case 1:
-						buttonId = BUTTON_1;
-						selectedMode = "EASY";
-						break;
-
-					case 2:
-						buttonId = BUTTON_2;
-						selectedMode = "MEDIUM";
-						break;
-
-					case 3: buttonId = BUTTON_3;
-						selectedMode = "HARD";
-						break;
-
-					case 4: 
-						buttonId = BUTTON_4;
-						selectedMode = "EXTREME";
-						break;
-
-					default:
-						System.out.println("SOMETHING WENT WRONG!!!!!");
-					
-				}
-			}
-		}
-		turns = processButton();
-		lockInDifficultyLevel();
-		return buttonId;
-
-	}*/
-
 	private void difficultyGameActionListener(JButton button){
 		button.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -305,8 +267,6 @@ public class GuessTheNumber extends JFrame{
 		hardLevelButton.setEnabled(false);
 		extremeLevelButton.setEnabled(false);
 	}
-
-	
 
 	private void printOutNumberOfTurns(JLabel label,int numberOfTurns){
 		label.setText("" + numberOfTurns);
@@ -384,16 +344,10 @@ public class GuessTheNumber extends JFrame{
 		};
 	}
 
-	
-
 	private void stopGameClock(){
 
 	}
 	
-	/*private void resetButton(){
-
-	}*/
-
 	private void displayRandomNumber(){
 		randomNumber = getRandomNumber();
 	}
@@ -405,4 +359,42 @@ public class GuessTheNumber extends JFrame{
 	private void playAgainPrompt(){
 
 	}
+
+	//VERSION 1 OF THIS METHOD, METHOD WAS REFACOTED
+	/*private int setGameDifficulty(ActionEvent e){
+		Object sourceObject = e.getSource();
+		for(int i = 0; i < levelButtons.length; i++){
+			if(sourceObject == levelButtons[i]){
+				buttonId = i + 1;
+				switch(buttonId){
+					case 1:
+						buttonId = BUTTON_1;
+						selectedMode = "EASY";
+						break;
+
+					case 2:
+						buttonId = BUTTON_2;
+						selectedMode = "MEDIUM";
+						break;
+
+					case 3: buttonId = BUTTON_3;
+						selectedMode = "HARD";
+						break;
+
+					case 4: 
+						buttonId = BUTTON_4;
+						selectedMode = "EXTREME";
+						break;
+
+					default:
+						System.out.println("SOMETHING WENT WRONG!!!!!");
+					
+				}
+			}
+		}
+		turns = processButton();
+		lockInDifficultyLevel();
+		return buttonId;
+
+	}*/
 }
