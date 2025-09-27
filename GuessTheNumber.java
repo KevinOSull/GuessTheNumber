@@ -81,6 +81,8 @@ public class GuessTheNumber extends JFrame{
 	private Timer fifthteenSecondTimer;
 
 	private String[] difficultyModes = new String[]{"EASY","MEDIUM","HARD","EXTREME"};
+	private int[] difficultyLevels = new int[]{EASY_GAME_MODE,INTERMEDIATE_GAME_MODE,HARD_GAME_MODE,EXTREME_HARD_GAME_MODE};
+	private JLabel[] levelLabels = new JLabel[]{easyLevelLabel,intermediateLevelLabel,hardLevelLabel,extremeHardLevelLabel};
 	private Timer[] gameTimers = new Timer[]{sixtySecondsTimer,fortyFiveSecondsTimer,thirtySecondsTimer,fifthteenSecondTimer};
 	private int[] buttonDifficultyLevels = new int[]{BUTTON_1,BUTTON_2,BUTTON_3,BUTTON_4};
 	private JButton[] levelButtons;
@@ -129,9 +131,9 @@ public class GuessTheNumber extends JFrame{
 		countDownClockLabel = addLabel("Countdown Timer: ",10,222,118,14);
 		timerOutputLabel = addLabel("60",120,220,19,14);
 		easyLevelLabel = addLabel("0",149,91,19,14);
-		intermediateLevelLabel = addLabel("1",244,91,19,14);
-		hardLevelLabel = addLabel("1",333,91,19,14);
-		extremeHardLevelLabel = addLabel("1",431,91,19,14);
+		intermediateLevelLabel = addLabel("0",244,91,19,14);
+		hardLevelLabel = addLabel("0",333,91,19,14);
+		extremeHardLevelLabel = addLabel("0",431,91,19,14);
 		outputLabel = addLabel("",220,130,140,30);
 		outputLabel.setBackground(Color.BLUE);
 		outputLabel.setOpaque(true);
@@ -204,15 +206,13 @@ public class GuessTheNumber extends JFrame{
 
 	private void checkChoice(ActionEvent e){
 		Object sourceObject = e.getSource();
-		switch(turns){
-			case EASY_GAME_MODE:
-				if(sourceObject == submitButton){
-					checkGuess(easyLevelLabel,e);
-				}
-				break;
+		for(int i = 0; i < difficultyLevels.length; i++){
+			if(turns == difficultyLevels[i] && sourceObject == submitButton){
+				checkGuess(levelLabels[i],e);
+			}
 		}
 	}
-
+	
 	private int processButton(){
 		switch(buttonId){
 			case BUTTON_1:
@@ -396,5 +396,35 @@ public class GuessTheNumber extends JFrame{
 		lockInDifficultyLevel();
 		return buttonId;
 
+	}*/
+
+
+	/*private void checkChoice(ActionEvent e){
+		Object sourceObject = e.getSource();
+		switch(turns){
+			case EASY_GAME_MODE:
+				if(sourceObject == submitButton){
+					checkGuess(easyLevelLabel,e);
+				}
+				break;
+			
+			case INTERMEDIATE_GAME_MODE:
+				if(sourceObject == submitButton){
+					checkGuess(intermediateLevelLabel,e);
+				}
+				break;
+
+			case HARD_GAME_MODE:
+				if(sourceObject == submitButton){
+					checkGuess(hardLevelLabel,e);
+				}
+				break;
+			
+			case EXTREME_HARD_GAME_MODE:
+				if(sourceObject == submitButton){
+					checkGuess(extremeHardLevelLabel,e);
+				}
+				break;
+		}
 	}*/
 }
