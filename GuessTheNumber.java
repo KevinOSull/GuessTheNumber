@@ -82,11 +82,13 @@ public class GuessTheNumber extends JFrame{
 
 	private String[] difficultyModes = new String[]{"EASY","MEDIUM","HARD","EXTREME"};
 	private int[] difficultyLevels = new int[]{EASY_GAME_MODE,INTERMEDIATE_GAME_MODE,HARD_GAME_MODE,EXTREME_HARD_GAME_MODE};
-	private JLabel[] levelLabels = new JLabel[]{easyLevelLabel,intermediateLevelLabel,hardLevelLabel,extremeHardLevelLabel};
 	private Timer[] gameTimers = new Timer[]{sixtySecondsTimer,fortyFiveSecondsTimer,thirtySecondsTimer,fifthteenSecondTimer};
+	private int[] otherTimers = new int[]{countDownSixty,countDownFortyFive,countDownThirty,countDownFifteen};
 	private int[] buttonDifficultyLevels = new int[]{BUTTON_1,BUTTON_2,BUTTON_3,BUTTON_4};
+	private JLabel[]levelLabels;
 	private JButton[] levelButtons;
-	private JButton[] gameFlowButtons = new JButton[]{submitButton,resetFieldsButton,stopGameButton,exitButton};
+	private JButton[] gameFlowButtons;
+	//private JButton[] gameFlowButtons = new JButton[]{submitButton,resetFieldsButton,stopGameButton,exitButton};
 	
 	private JTextField userGuessField;
 	
@@ -151,7 +153,9 @@ public class GuessTheNumber extends JFrame{
 		stopGameButton = addButton("Stop",10,188,89,32);
 		peekButton = addButton("Peek",10,118,89,32);
 		exitButton = addButton("Exit",385,187,89,32);
+		levelLabels = new JLabel[]{easyLevelLabel,intermediateLevelLabel,hardLevelLabel,extremeHardLevelLabel};
 		levelButtons = new JButton[]{easyLevelButton,intermediateLevelButton,hardLevelButton,extremeLevelButton};
+		gameFlowButtons = new JButton[]{submitButton,resetFieldsButton,stopGameButton,exitButton};
 		initializeButtonListeners();
 	}
 	
@@ -212,32 +216,17 @@ public class GuessTheNumber extends JFrame{
 			}
 		}
 	}
-	
+
 	private int processButton(){
-		switch(buttonId){
-			case BUTTON_1:
-				level = EASY_GAME_MODE;
-				printOutNumberOfTurns(easyLevelLabel,EASY_GAME_MODE);
-				break;
-
-			case BUTTON_2:
-				level = INTERMEDIATE_GAME_MODE;
-				printOutNumberOfTurns(intermediateLevelLabel,INTERMEDIATE_GAME_MODE);
-				break;
-
-			case BUTTON_3:
-				level = HARD_GAME_MODE;
-				printOutNumberOfTurns(hardLevelLabel,HARD_GAME_MODE);
-				break;
-
-			case BUTTON_4:
-				level = EXTREME_HARD_GAME_MODE;
-				printOutNumberOfTurns(extremeHardLevelLabel,EXTREME_HARD_GAME_MODE);
-				break;
+		for(int i = 0; i < buttonDifficultyLevels.length; i++){
+			if(buttonId == buttonDifficultyLevels[i]){
+				level = difficultyLevels[i];
+				printOutNumberOfTurns(levelLabels[i],difficultyLevels[i]);
+			}
 		}
 		return buttonId;
 	}
-
+	
 	private int setGameDifficulty(ActionEvent e){
 		Object sourceObject = e.getSource();
 		for(int i = 0; i < levelButtons.length; i++){
@@ -274,6 +263,42 @@ public class GuessTheNumber extends JFrame{
 	}
 
 	private void checkGuess(JLabel label,ActionEvent e){
+
+	}
+
+	private void checkWhichButtonWasPressed(ActionEvent e){
+		Object sourceObject = e.getSource();
+		for(int i = 0; i < gameTimers.length; i++){
+			if(sourceObject == gameTimers[i]){
+				checkCount(countDown[i]);
+				printWhichTimerIsRunning(timerOutputLabel,countDown[i]);
+			}
+		}
+	}
+
+	private void printWhichTimerIsRunning(JLabel label,int countDown){
+		label.setText("" + countDown);
+		label.setText(String.valueOf(countDown));
+		checkIfCountdownIsZero(label,countDown);
+	}
+
+	private void checkIfCountdownIsZero(JLabel label,int countDown){
+		if(countDown == 0){
+			label.setText("TIME'S UP!!!!!");
+			guessesTimer.start();
+		}
+		if(isWin){
+			guessesTimer.stop();
+			label.setText("YOU WIN!!!!");
+		}
+	}
+
+
+	private void checkCount(int countDown,ActionEvent e){
+
+	}
+
+	private void checkTurnsLeft(){
 
 	}
 
@@ -427,4 +452,31 @@ public class GuessTheNumber extends JFrame{
 				break;
 		}
 	}*/
+
+
+	/*private int processButton(){
+		switch(buttonId){
+			case BUTTON_1:
+				level = EASY_GAME_MODE;
+				printOutNumberOfTurns(easyLevelLabel,EASY_GAME_MODE);
+				break;
+
+			case BUTTON_2:
+				level = INTERMEDIATE_GAME_MODE;
+				printOutNumberOfTurns(intermediateLevelLabel,INTERMEDIATE_GAME_MODE);
+				break;
+
+			case BUTTON_3:
+				level = HARD_GAME_MODE;
+				printOutNumberOfTurns(hardLevelLabel,HARD_GAME_MODE);
+				break;
+
+			case BUTTON_4:
+				level = EXTREME_HARD_GAME_MODE;
+				printOutNumberOfTurns(extremeHardLevelLabel,EXTREME_HARD_GAME_MODE);
+				break;
+		}
+		return buttonId;
+	}*/
+
 }
